@@ -59,7 +59,7 @@ class WebTech():
     # 'meta' check this pattern in meta
     # 'js' check this expression in javascript context
     # 'cookies' check this pattern in cookies
-    # 'script' check this pattern in scripts src
+    # 'scriptSrc' check this pattern in scripts src ('script' in legacy databases)
     # 'url' check this pattern in url
 
     def __init__(self, options=None):
@@ -214,7 +214,10 @@ class WebTech():
             html = t.get("html")
             meta = t.get("meta")
             cookies = t.get("cookies")
-            script = t.get("script")
+            # The Wappalyzer successor db (enthec/webappanalyzer) renamed "script"
+            # to "scriptSrc". Keep "script" as a fallback: it is still used by
+            # webtech.json and by any user-supplied legacy database file.
+            script = t.get("scriptSrc") or t.get("script")
             url = t.get("url")
             if headers:
                 target.check_headers(tech, headers)
